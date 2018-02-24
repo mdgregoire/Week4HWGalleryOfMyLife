@@ -12,10 +12,8 @@
   <body ng-controller="GalleryController as vm">
     <h1>GALLERY</h1>
     <section id="displayArea">
-      <div class="image">
-        <img ng-src="assets/1.jpg" width="100" height="100"
-              ng-model="image1" ng-click="vm.flipImage()" alt="">
-
+      <div ng-repeat="image in vm.imageArray" class="image">
+        <img ng-src="{{image.url}}" width="100" height="100" ng-click="vm.flipImage(image.id)" alt="">
       </div>
 
 
