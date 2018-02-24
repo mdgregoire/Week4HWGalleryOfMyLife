@@ -13,7 +13,8 @@
     <h1>GALLERY</h1>
     <section id="displayArea">
       <div ng-repeat="image in vm.imageArray" class="image">
-        <img ng-src="{{image.url}}" width="100" height="100" ng-click="vm.flipImage(image.id)" alt="">
+        <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="100" height="100" ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
+        <h2 ng-show="image.is_clicked" ng-click="vm.flipImage(image.id, image.is_clicked)">is clicked<h2>
       </div>
 
 
