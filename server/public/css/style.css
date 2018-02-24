@@ -1,3 +1,25 @@
 .image{
   float: left;
+  margin-left: 20px;
 }
+
+.textBox{
+  float: left;
+  width: 200px;
+  height: 200px;
+  background-color: blue;
+  margin-bottom: 20px;
+  margin-right: 4px;
+}
+
+.buttonArea{
+  text-align: center;
+}
+
+/* .commentList{
+  text-align: center;
+} */
+
+/* .commentItem{
+  text-align: center;
+} */

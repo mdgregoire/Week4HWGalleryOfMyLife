@@ -65,4 +65,54 @@ router.put('/vote/:id', (request, response) => {
    })
 })//end put upvote
 
+router.get('/:id', (request, response) => {
+  let id = request.params.id;
+  console.log('inside the getComments', id);
+
+  const sqlText = `SELECT comment from comment
+                   WHERE images_id = $1
+                    ORDER BY id`
+  pool.query(sqlText, [id])
+    .then((result) => {
+      response.send(result.rows);
+      console.log('success in the get comments router', result.rows);
+    })
+    .catch((error) =>{
+      console.log('error in get', error);
+      response.sendStatus(500);
+    })
+})//end the get Comments
+
+router.put('/comments/:id', (request, response) => {
+  console.log('inside the put comments');
+  let id = request.params.id;
+  let view;
+  let sqlText;
+
+  if (request.body.view){
+    view = false;
+    sqlText = `UPDATE images
+               SET view_comments = $1
+               WHERE id = $2;`;
+  }
+  else{
+    view = true;
+    sqlText = `UPDATE images
+               SET view_comments = $1
+               WHERE id = $2;`;
+  }
+  console.log('in put', id, view);
+  console.log('sqlText in put', sqlText);
+  pool.query(sqlText, [view, id])
+    .then((result) => {
+      response.sendStatus(200);
+      console.log('success in the put comment router', result);
+    })
+    .catch((error) =>{
+      console.log('error in put', error);
+      response.sendStatus(500);
+    })
+})//end put showComments
+
+
 module.exports = router;

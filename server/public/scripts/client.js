@@ -4,6 +4,7 @@ const app = angular.module('myApp',[])
 const GalleryController = app.controller('GalleryController', ['$http', function($http){
 let self = this;
 self.imageArray = [];
+self.commentArray = [];
 
 
 self.getImages = function(){
@@ -58,5 +59,39 @@ self.upvote = function(id){
   })
 }
 //end upvote
+
+self.getComments = function(id, view_comments){
+  console.log('in viewComments', id);
+  $http({
+    method: 'GET',
+    url: `/gallery/${id}`
+  })
+  .then(function(response){
+    console.log('success in getComments', response.data);
+    self.commentArray = response.data;
+    self.showComments(id, view_comments);
+  })
+  .catch(function(error){
+    console.log('error in getComments', error);
+  })
+}
+//end viewComments
+
+self.showComments = function (id, view_comments){
+  console.log('in show comments', id, view_comments);
+  $http({
+    method: 'PUT',
+    url: `/gallery/comments/${id}`,
+    data: {view: view_comments}
+  })
+  .then(function(response){
+    console.log('success in putcomments', response);
+    self.getImages();
+
+  })
+  .catch(function(error){
+    console.log('error in putcomments', error);
+  })
+}//end showComments
 
 }]);//end GalleryController

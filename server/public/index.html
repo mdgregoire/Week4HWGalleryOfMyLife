@@ -13,11 +13,28 @@
     <h1>GALLERY</h1>
     <section id="displayArea">
       <div ng-repeat="image in vm.imageArray" class="image">
-        <h3>Number of Views:{{image.is_clicked_count}}
-        <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="100" height="100"
+        <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="200" height="200"
              ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
-             <h2 ng-show="image.is_clicked" ng-click="vm.flipImage(image.id, image.is_clicked)">{{image.note}}<h2>
-        <button ng-click="vm.upvote(image.id)">Upvote Image {{image.votecount}}</button>
+         <div class = "textBox" ng-show="image.is_clicked" ng-click="vm.flipImage(image.id, image.is_clicked)">
+           <p>
+             {{image.note}}
+           </p>
+         </div>
+         <br>
+         <br>
+        <section class = "buttonArea">
+          <button ng-click="vm.upvote(image.id)">Upvote Image {{image.votecount}}</button>
+          <p>Number of Views:{{image.is_clicked_count}}</p>
+          <button ng-click="vm.getComments(image.id, image.view_comments)">View/Hide Comments</button>
+        </section>
+        <section ng-show="image.view_comments">
+          <ul class="commentList">
+            <li ng-repeat="comment in vm.commentArray" class="commentItem">
+              {{comment.comment}}
+            </li>
+          </ul>
+
+        </section>
       </div>
 
 
