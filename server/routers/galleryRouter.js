@@ -21,17 +21,22 @@ router.put('/:id', (request, response) => {
   console.log('inside the put');
   let id = request.params.id;
   let clicked;
+  let sqlText;
+
   if (request.body.clicked){
     clicked = false;
+    sqlText = `UPDATE images
+                     SET is_clicked = $1
+                     WHERE id = $2;`;
   }
   else{
     clicked = true;
+    sqlText = `UPDATE images
+                     SET is_clicked = $1, is_clicked_count = is_clicked_count+1
+                     WHERE id = $2;`;
   }
 
   console.log('in put', id, clicked);
-  const sqlText = `UPDATE images
-                   SET is_clicked = $1
-                   WHERE id = $2;`;
   console.log('sqlText in put', sqlText);
   pool.query(sqlText, [clicked, id])
     .then((result) => {
