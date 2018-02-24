@@ -5,6 +5,7 @@ const GalleryController = app.controller('GalleryController', ['$http', function
 let self = this;
 self.imageArray = [];
 
+
 self.getImages = function(){
 console.log('inget images');
   $http({
@@ -19,11 +20,9 @@ console.log('inget images');
   .catch(function(error){
     console.log('error in getImages', error);
   })
-
 }
 //end getImages
 self.getImages();
-
 
 self.flipImage = function(id, is_clicked){
   console.log('in flip', id, is_clicked);
@@ -38,10 +37,26 @@ self.flipImage = function(id, is_clicked){
 
   })
   .catch(function(error){
-    console.log('error in getImages', error);
+    console.log('error in putclick', error);
   })
 }
+//end filpimage
 
+self.upvote = function(id){
+  console.log('in upvote', id);
+  $http({
+    method: 'PUT',
+    url: `/gallery/vote/${id}`
+  })
+  .then(function(response){
+    console.log('success in putvote', response);
+    self.getImages();
 
+  })
+  .catch(function(error){
+    console.log('error in putvote', error);
+  })
+}
+//end upvote
 
 }]);//end GalleryController

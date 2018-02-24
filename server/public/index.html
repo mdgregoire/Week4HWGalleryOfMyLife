@@ -13,7 +13,9 @@
     <h1>GALLERY</h1>
     <section id="displayArea">
       <div ng-repeat="image in vm.imageArray" class="image">
-        <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="100" height="100" ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
+        <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="100" height="100"
+             ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
+        <button ng-click="vm.upvote(image.id)">Upvote Image {{image.votecount}}</button>
         <h2 ng-show="image.is_clicked" ng-click="vm.flipImage(image.id, image.is_clicked)">is clicked<h2>
       </div>
 

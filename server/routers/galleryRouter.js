@@ -15,7 +15,7 @@ router.get('/', (request, response) => {
       console.log('error in get', error);
       response.sendStatus(500);
     })
-})//end the get
+})//end the get display all
 
 router.put('/:id', (request, response) => {
   console.log('inside the put');
@@ -26,16 +26,15 @@ router.put('/:id', (request, response) => {
   if (request.body.clicked){
     clicked = false;
     sqlText = `UPDATE images
-                     SET is_clicked = $1
-                     WHERE id = $2;`;
+               SET is_clicked = $1
+               WHERE id = $2;`;
   }
   else{
     clicked = true;
     sqlText = `UPDATE images
-                     SET is_clicked = $1, is_clicked_count = is_clicked_count+1
-                     WHERE id = $2;`;
+               SET is_clicked = $1, is_clicked_count = is_clicked_count+1
+               WHERE id = $2;`;
   }
-
   console.log('in put', id, clicked);
   console.log('sqlText in put', sqlText);
   pool.query(sqlText, [clicked, id])
@@ -47,6 +46,23 @@ router.put('/:id', (request, response) => {
       console.log('error in put', error);
       response.sendStatus(500);
     })
-})//end the get
+})//end put click flipImage
+
+router.put('/vote/:id', (request, response) => {
+  const id = request.params.id;
+  console.log('inside vote put');
+  sqlText = `UPDATE images
+             SET votecount = votecount+1
+             WHERE id = $1;`;
+             pool.query(sqlText, [id])
+   .then((result) => {
+     response.sendStatus(200);
+     console.log('success in the put router', result);
+   })
+   .catch((error) =>{
+     console.log('error in put', error);
+     response.sendStatus(500);
+   })
+})//end put upvote
 
 module.exports = router;
