@@ -1,10 +1,11 @@
 const app = angular.module('myApp',[])
 
 
-const GalleryController = app.controller('GalleryController', ['$http', function($http){
+const GalleryController = app.controller('GalleryController', ['$http', function($http, $timeout){
 let self = this;
 self.imageArray = [];
 self.commentArray = [];
+
 
 
 self.getImages = function(){
@@ -60,6 +61,22 @@ self.upvote = function(id){
 }
 //end upvote
 
+self.comments = function(id, view_comments){
+  $http({
+    method: 'PUT',
+    url: `/gallery`
+  })
+  .then(function(response){
+    console.log('success in putcomment', response);
+
+    self.getComments(id, view_comments);
+  })
+  .catch(function(error){
+    console.log('error in putcomment', error);
+  })
+}
+//end comments
+
 self.getComments = function(id, view_comments){
   console.log('in viewComments', id);
   $http({
@@ -75,7 +92,7 @@ self.getComments = function(id, view_comments){
     console.log('error in getComments', error);
   })
 }
-//end viewComments
+//end getComments
 
 self.showComments = function (id, view_comments){
   console.log('in show comments', id, view_comments);
@@ -92,6 +109,46 @@ self.showComments = function (id, view_comments){
   .catch(function(error){
     console.log('error in putcomments', error);
   })
-}//end showComments
+}
+//end showComments
+
+self.addComment = function(id, add_comment){
+  console.log('in add comment', id);
+  $http({
+    method: 'PUT',
+    url: `/gallery/add/clear`
+  })
+  .then(function(response){
+    console.log('success in addcomment', response);
+
+    self.addCommentField(id, add_comment);
+  })
+  .catch(function(error){
+    console.log('error in addcomment', error);
+  })
+}
+//end add comment
+
+self.addCommentField = function(id, add_comment){
+  console.log('in add commentfield');
+  $http({
+    method: 'PUT',
+    url: `/gallery/addfield/${id}`,
+    data: {add_comment: add_comment}
+  })
+  .then(function(response){
+    console.log('success in addcomment', response);
+    self.getImages();
+  })
+  .catch(function(error){
+    console.log('error in addcomment', error);
+  })
+}
+//end addCommentField
+
+self.submitComment = function(note){
+  console.log('in submit commemt', note);
+}
+//end submitComment
 
 }]);//end GalleryController

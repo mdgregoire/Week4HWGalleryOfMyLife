@@ -65,11 +65,59 @@ router.put('/vote/:id', (request, response) => {
    })
 })//end put upvote
 
+router.put('/', (request, response) => {
+  console.log('inside comment put');
+  sqlText = `UPDATE images
+             SET view_comments = false;`;
+             pool.query(sqlText)
+   .then((result) => {
+     response.sendStatus(200);
+     console.log('success in the put router', result);
+   })
+   .catch((error) =>{
+     console.log('error in put', error);
+     response.sendStatus(500);
+   })
+})//end put upvote
+
+router.put('/add/clear', (request, response) => {
+  console.log('inside comment add');
+  sqlText = `UPDATE images
+             SET add_comment = false;`;
+             pool.query(sqlText)
+   .then((result) => {
+     response.sendStatus(200);
+     console.log('success in the put router', result);
+   })
+   .catch((error) =>{
+     console.log('error in put', error);
+     response.sendStatus(500);
+   })
+})//end put add
+
+router.put('/addfield/:id', (request, response) => {
+  let id = request.params.id;
+  console.log('inside comment addfield', id);
+  sqlText = `UPDATE images
+             SET add_comment = true
+             WHERE id = $1;`;
+             pool.query(sqlText, [id])
+   .then((result) => {
+     response.sendStatus(200);
+     console.log('success in the put add field router', result);
+   })
+   .catch((error) =>{
+     console.log('error in put add field router', error);
+     response.sendStatus(500);
+   })
+})//end put addfield
+
+
 router.get('/:id', (request, response) => {
   let id = request.params.id;
   console.log('inside the getComments', id);
 
-  const sqlText = `SELECT comment from comment
+  const sqlText = `SELECT comment, images_id from comment
                    WHERE images_id = $1
                     ORDER BY id`
   pool.query(sqlText, [id])
