@@ -7,10 +7,12 @@
     <script src="scripts/client.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+
 
   </head>
   <body ng-controller="GalleryController as vm">
-    <h1>GALLERY</h1>
+    <h1>GALLERY</h1><button class="btn btn-warning">Add Picture</button>
     <section id="displayArea">
       <div ng-repeat="image in vm.imageArray" class="col-sm-2">
         <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="200" height="200"
@@ -49,9 +51,10 @@
 
         </section>
       </div>
-
-
-      </div>
     </section>
+
+
+
+
   </body>
 </html>

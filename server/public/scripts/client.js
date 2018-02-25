@@ -1,7 +1,7 @@
-const app = angular.module('myApp',[])
+const app = angular.module('myApp',['ui.bootstrap'])
 
 
-const GalleryController = app.controller('GalleryController', ['$http', function($http, $timeout){
+const GalleryController = app.controller('GalleryController', ['$http', function($http){
 let self = this;
 self.imageArray = [];
 self.commentArray = [];
@@ -179,5 +179,22 @@ self.submitComment = function(id, note){
   })
 }
 //end submitComment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }]);//end GalleryController
