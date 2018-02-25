@@ -197,10 +197,7 @@ self.submitPicture = function(newURL, newStory){
   })
   .then(function(response){
     console.log('success in addcomment post', response);
-    self.addPicture = false;
-    self.newURL = '';
-    self.newStory = '';
-    self.getImages();
+    self.clearSubmit();
   })
   .catch(function(error){
     console.log('error in addcomment post', error);
@@ -208,6 +205,13 @@ self.submitPicture = function(newURL, newStory){
 }
 //end submitPicture
 
+self.clearSubmit = function(){
+  self.addPicture = false;
+  self.newURL = '';
+  self.newStory = '';
+  self.getImages();
+}
+//end  clearSubmit
 
 ///these 3 function calls make sure that when the page loads all of the 'view comments'
 ///and 'add comments' booleans are re-set in the DB this makes sure that everything starts

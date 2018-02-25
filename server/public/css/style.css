@@ -1,16 +1,18 @@
 .image{
-  float: left;
-  margin-left: 20px;
+  /* float: left; */
+  /* margin-left: 20px; */
 }
 
 .textBox{
-  float: left;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   background-color: blue;
-  margin-bottom: 20px;
-  margin-right: 4px;
+
 }
+.btn{
+  margin: 10px;
+}
+
 
 .buttonArea{
   text-align: center;
@@ -18,6 +20,7 @@
 
 .addComment{
   text-align: center;
+  margin-top: 10px;
 }
 
 .addButton{
