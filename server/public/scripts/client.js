@@ -26,6 +26,7 @@ console.log('inget images');
 //end getImages
 self.getImages();
 
+
 self.flipImage = function(id, is_clicked){
   console.log('in flip', id, is_clicked);
   $http({
@@ -68,14 +69,22 @@ self.comments = function(id, view_comments){
   })
   .then(function(response){
     console.log('success in putcomment', response);
-
+    if(id){
     self.getComments(id, view_comments);
+      }
+    else{
+      self.getImages();
+
+    }
   })
   .catch(function(error){
     console.log('error in putcomment', error);
   })
 }
 //end comments
+
+self.comments();
+
 
 self.getComments = function(id, view_comments){
   console.log('in viewComments', id);
@@ -112,7 +121,7 @@ self.showComments = function (id, view_comments){
 }
 //end showComments
 
-self.addComment = function(id, add_comment){
+self.addComment = function(id){
   console.log('in add comment', id);
   $http({
     method: 'PUT',
@@ -121,7 +130,13 @@ self.addComment = function(id, add_comment){
   .then(function(response){
     console.log('success in addcomment', response);
 
-    self.addCommentField(id, add_comment);
+    if(id){
+    self.addCommentField(id);
+          }
+    else{
+      self.getImages();
+    }
+    self.comments();
   })
   .catch(function(error){
     console.log('error in addcomment', error);
@@ -129,12 +144,13 @@ self.addComment = function(id, add_comment){
 }
 //end add comment
 
-self.addCommentField = function(id, add_comment){
+self.addComment();
+
+self.addCommentField = function(id){
   console.log('in add commentfield');
   $http({
     method: 'PUT',
     url: `/gallery/addfield/${id}`,
-    data: {add_comment: add_comment}
   })
   .then(function(response){
     console.log('success in addcomment', response);
@@ -146,8 +162,21 @@ self.addCommentField = function(id, add_comment){
 }
 //end addCommentField
 
-self.submitComment = function(note){
-  console.log('in submit commemt', note);
+self.submitComment = function(id, note){
+  console.log('in submit commemt', id, note);
+  $http({
+    method: 'POST',
+    url: `/gallery/comment/${id}`,
+    data: {note: note}
+  })
+  .then(function(response){
+    console.log('success in addcomment post', response);
+
+    self.addComment();
+  })
+  .catch(function(error){
+    console.log('error in addcomment post', error);
+  })
 }
 //end submitComment
 

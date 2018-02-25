@@ -26,24 +26,24 @@
           <button ng-click="vm.upvote(image.id)">Upvote Image {{image.votecount}}</button>
           <p>Number of Views:{{image.is_clicked_count}}</p>
           <button ng-click="vm.comments(image.id, image.view_comments)">View/Hide Comments</button>
-          <br>
-          <button ng-click="vm.addComment(image.id)">Add Comment</button>
-          <br>
-          <section ng-show="image.add_comment">
-            <input type="text" ng-model="noteInput">
-            <br>
-            <button ng-click=vm.submitComment(noteInput)>Submit Comment</button>
-          </section>
         </section>
+        <section ng-show="image.view_comments">
+          <ul class="commentList">
+            <li ng-repeat="comment in vm.commentArray" class="commentItem">
+              {{comment.comment}}
+            </li>
+          </ul>
+        </section>
+        <button ng-hide="image.add_comment"ng-click="vm.addComment(image.id)">Add Comment</button>
 
-          <section ng-show="image.view_comments">
-            <ul class="commentList">
-              <li ng-repeat="comment in vm.commentArray" class="commentItem">
-                {{comment.comment}}
-              </li>
-            </ul>
-          </section>
+        <section class= "addComment" ng-show="image.add_comment">
+          <br>
+          <input type="text" ng-model="noteInput">
+          <br>
+          <button ng-click="vm.submitComment(image.id, noteInput)">Submit Comment</button>
+          <button ng-click="vm.addComment()">Cancel</button>
 
+        </section>
       </div>
 
 

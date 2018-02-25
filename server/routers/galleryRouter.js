@@ -119,7 +119,7 @@ router.get('/:id', (request, response) => {
 
   const sqlText = `SELECT comment, images_id from comment
                    WHERE images_id = $1
-                    ORDER BY id`
+                    ORDER BY id;`;
   pool.query(sqlText, [id])
     .then((result) => {
       response.send(result.rows);
@@ -161,6 +161,24 @@ router.put('/comments/:id', (request, response) => {
       response.sendStatus(500);
     })
 })//end put showComments
+
+router.post('/comment/:id', (request, response) => {
+  let id = request.params.id;
+  let note = request.body.note;
+  console.log('inside the postComments', id);
+
+  const sqlText = `INSERT INTO comment (images_id, comment)
+                   VALUES($1, $2);`
+  pool.query(sqlText, [id, note])
+    .then((result) => {
+      response.sendStatus(200);
+      console.log('success in the post comments router');
+    })
+    .catch((error) =>{
+      console.log('error in post comments', error);
+      response.sendStatus(500);
+    })
+})//end the get Comments
 
 
 module.exports = router;
