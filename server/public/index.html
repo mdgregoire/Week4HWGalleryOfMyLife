@@ -12,7 +12,7 @@
   <body ng-controller="GalleryController as vm">
     <h1>GALLERY</h1>
     <section id="displayArea">
-      <div ng-repeat="image in vm.imageArray" class="image">
+      <div ng-repeat="image in vm.imageArray" class="col-sm-2">
         <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="200" height="200"
              ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
          <div class = "textBox" ng-show="image.is_clicked" ng-click="vm.flipImage(image.id, image.is_clicked)">
@@ -23,9 +23,14 @@
          <br>
          <br>
         <section class = "buttonArea">
-          <button ng-click="vm.upvote(image.id)">Upvote Image {{image.votecount}}</button>
+          <button class="btn btn-info btn-sm" ng-click="vm.upvote(image.id)">Upvote Image {{image.votecount}}</button>
+          <br>
+          <br>
           <p>Number of Views:{{image.is_clicked_count}}</p>
-          <button ng-click="vm.comments(image.id, image.view_comments)">View/Hide Comments</button>
+          <button class="btn btn-info btn-sm" ng-hide="image.add_comment"ng-click="vm.addComment(image.id)">Add Comment</button>
+          <br>
+          <br>
+          <button class="btn btn-info btn-sm" ng-click="vm.comments(image.id, image.view_comments)">View/Hide Comments</button>
         </section>
         <section ng-show="image.view_comments">
           <ul class="commentList">
@@ -34,14 +39,13 @@
             </li>
           </ul>
         </section>
-        <button ng-hide="image.add_comment"ng-click="vm.addComment(image.id)">Add Comment</button>
 
         <section class= "addComment" ng-show="image.add_comment">
           <br>
           <input type="text" ng-model="noteInput">
           <br>
-          <button ng-click="vm.submitComment(image.id, noteInput)">Submit Comment</button>
-          <button ng-click="vm.addComment()">Cancel</button>
+          <button class="btn btn-info btn-sm" ng-click="vm.submitComment(image.id, noteInput)">Submit Comment</button>
+          <button class="btn btn-danger btn-sm" ng-click="vm.addComment()">Cancel</button>
 
         </section>
       </div>
