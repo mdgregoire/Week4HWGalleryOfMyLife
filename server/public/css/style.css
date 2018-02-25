@@ -1,28 +1,42 @@
-.image{
-  /* float: left; */
-  /* margin-left: 20px; */
+
+body{
+  background-color: AntiqueWhite;
+  font-family: 'Montserrat', sans-serif;
+  padding: 20px;
 }
 
-.textBox{
-  width: 180px;
-  height: 180px;
-  background-color: blue;
-
-}
-.btn{
-  margin: 10px;
-}
-
-
-.buttonArea{
+h1{
+  font-size: 100px;
   text-align: center;
 }
 
+.note{
+  padding: 20px;
+  text-align: center;
+}
+.count{
+  font-size: 10px;
+  text-align: right;
+}
+.textBox{
+  width: 180px;
+  height: 130px;
+  background-color: mintcream;
+  margin-bottom: 20px;
+}
+.btn{
+  margin: 5px;
+}
+.buttonArea{
+  text-align: center;
+}
 .addComment{
   text-align: center;
   margin-top: 10px;
 }
-
-.addButton{
-  text-align: center;
+.thumbnail{
+  background-color: PowderBlue;
+}
+img{
+  padding-top: 10px;
 }

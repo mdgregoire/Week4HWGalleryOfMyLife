@@ -3,13 +3,12 @@ const router = express.Router();
 const pool = require('../modules/pool');
 
 router.get('/', (request, response) => {
-  console.log('inside the get');
+  // this is the generic display get, it pulls from the db and resets the DOM
   const sqlText = `SELECT * from images
                     ORDER BY id`
   pool.query(sqlText)
     .then((result) => {
       response.send(result.rows);
-      console.log('success in the get router', result.rows);
     })
     .catch((error) =>{
       console.log('error in get', error);
@@ -17,12 +16,47 @@ router.get('/', (request, response) => {
     })
 })//end the get display all
 
+router.get('/:id', (request, response) => {
+  let id = request.params.id;
+// if the get call has a paramater passed it will grab the comments instead
+  const sqlText = `SELECT comment, images_id from comment
+                   WHERE images_id = $1
+                    ORDER BY id;`;
+  pool.query(sqlText, [id])
+    .then((result) => {
+      response.send(result.rows);
+      console.log('success in the get comments router', result.rows);
+    })
+    .catch((error) =>{
+      console.log('error in get', error);
+      response.sendStatus(500);
+    })
+})//end the get Comments
+
+router.post('/picture', (request, response) => {
+  let newURL = request.body.newURL;
+  let newStory = request.body.newStory;
+  let newTitle = request.body.newTitle;
+  const sqlText = `INSERT INTO images (url, note, title)
+                   VALUES($1, $2, $3);`
+  pool.query(sqlText, [newURL, newStory, newTitle])
+    .then((result) => {
+      response.sendStatus(200);
+      console.log('success in the post picture router');
+    })
+    .catch((error) =>{
+      console.log('error in post comments', error);
+      response.sendStatus(500);
+    })
+})//end add picture post
+
 router.put('/:id', (request, response) => {
   console.log('inside the put');
   let id = request.params.id;
   let clicked;
   let sqlText;
-
+// the if/else below checks to see if the image is 'clicked' or not and toggles back and forth
+// if the image is getting selected (moving from false to true) it will also increment the click counter
   if (request.body.clicked){
     clicked = false;
     sqlText = `UPDATE images
@@ -35,12 +69,9 @@ router.put('/:id', (request, response) => {
                SET is_clicked = $1, is_clicked_count = is_clicked_count+1
                WHERE id = $2;`;
   }
-  console.log('in put', id, clicked);
-  console.log('sqlText in put', sqlText);
   pool.query(sqlText, [clicked, id])
     .then((result) => {
       response.sendStatus(200);
-      console.log('success in the put router', result);
     })
     .catch((error) =>{
       console.log('error in put', error);
@@ -57,7 +88,6 @@ router.put('/vote/:id', (request, response) => {
              pool.query(sqlText, [id])
    .then((result) => {
      response.sendStatus(200);
-     console.log('success in the put router', result);
    })
    .catch((error) =>{
      console.log('error in put', error);
@@ -72,7 +102,6 @@ router.put('/', (request, response) => {
              pool.query(sqlText)
    .then((result) => {
      response.sendStatus(200);
-     console.log('success in the put router', result);
    })
    .catch((error) =>{
      console.log('error in put', error);
@@ -81,62 +110,41 @@ router.put('/', (request, response) => {
 })//end put upvote
 
 router.put('/add/clear', (request, response) => {
-  console.log('inside comment add');
+// this resets all of the 'add_comment' tags in the DB to false, ensuring that
+//there is only 1 open add comment field at a time.
   sqlText = `UPDATE images
              SET add_comment = false;`;
              pool.query(sqlText)
    .then((result) => {
      response.sendStatus(200);
-     console.log('success in the put router', result);
    })
    .catch((error) =>{
      console.log('error in put', error);
      response.sendStatus(500);
    })
-})//end put add
+})//end put to clear add
 
 router.put('/addfield/:id', (request, response) => {
+  //this updates the 'add_comment' tag to true creating the needed fields
   let id = request.params.id;
-  console.log('inside comment addfield', id);
   sqlText = `UPDATE images
              SET add_comment = true
              WHERE id = $1;`;
              pool.query(sqlText, [id])
    .then((result) => {
      response.sendStatus(200);
-     console.log('success in the put add field router', result);
    })
    .catch((error) =>{
      console.log('error in put add field router', error);
      response.sendStatus(500);
    })
-})//end put addfield
-
-
-router.get('/:id', (request, response) => {
-  let id = request.params.id;
-  console.log('inside the getComments', id);
-
-  const sqlText = `SELECT comment, images_id from comment
-                   WHERE images_id = $1
-                    ORDER BY id;`;
-  pool.query(sqlText, [id])
-    .then((result) => {
-      response.send(result.rows);
-      console.log('success in the get comments router', result.rows);
-    })
-    .catch((error) =>{
-      console.log('error in get', error);
-      response.sendStatus(500);
-    })
-})//end the get Comments
+})//end put add comment field
 
 router.put('/comments/:id', (request, response) => {
-  console.log('inside the put comments');
+  //this is the toggle for view/hide comments
   let id = request.params.id;
   let view;
   let sqlText;
-
   if (request.body.view){
     view = false;
     sqlText = `UPDATE images
@@ -149,12 +157,9 @@ router.put('/comments/:id', (request, response) => {
                SET view_comments = $1
                WHERE id = $2;`;
   }
-  console.log('in put', id, view);
-  console.log('sqlText in put', sqlText);
   pool.query(sqlText, [view, id])
     .then((result) => {
       response.sendStatus(200);
-      console.log('success in the put comment router', result);
     })
     .catch((error) =>{
       console.log('error in put', error);
@@ -163,6 +168,7 @@ router.put('/comments/:id', (request, response) => {
 })//end put showComments
 
 router.post('/comment/:id', (request, response) => {
+  // This adds the comment to the db
   let id = request.params.id;
   let note = request.body.note;
   console.log('inside the postComments', id);
@@ -179,25 +185,5 @@ router.post('/comment/:id', (request, response) => {
       response.sendStatus(500);
     })
 })//end the get Comments
-
-router.post('/picture', (request, response) => {
-  let newURL = request.body.newURL;
-  let newStory = request.body.newStory;
-  console.log('inside the post Picture', newURL, newStory);
-
-  const sqlText = `INSERT INTO images (url, note)
-                   VALUES($1, $2);`
-  pool.query(sqlText, [newURL, newStory])
-    .then((result) => {
-      response.sendStatus(200);
-      console.log('success in the post picture router');
-    })
-    .catch((error) =>{
-      console.log('error in post comments', error);
-      response.sendStatus(500);
-    })
-})//end the get Comments
-
-
 
 module.exports = router;
