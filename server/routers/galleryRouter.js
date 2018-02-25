@@ -180,5 +180,24 @@ router.post('/comment/:id', (request, response) => {
     })
 })//end the get Comments
 
+router.post('/picture', (request, response) => {
+  let newURL = request.body.newURL;
+  let newStory = request.body.newStory;
+  console.log('inside the post Picture', newURL, newStory);
+
+  const sqlText = `INSERT INTO images (url, note)
+                   VALUES($1, $2);`
+  pool.query(sqlText, [newURL, newStory])
+    .then((result) => {
+      response.sendStatus(200);
+      console.log('success in the post picture router');
+    })
+    .catch((error) =>{
+      console.log('error in post comments', error);
+      response.sendStatus(500);
+    })
+})//end the get Comments
+
+
 
 module.exports = router;

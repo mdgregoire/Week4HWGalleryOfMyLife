@@ -7,12 +7,17 @@
     <script src="scripts/client.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
 
 
   </head>
   <body ng-controller="GalleryController as vm">
-    <h1>GALLERY</h1><button class="btn btn-warning">Add Picture</button>
+    <h1>GALLERY</h1>
+    <button ng-hide="vm.addPicture"ng-click="vm.addPictureField()" class="btn btn-warning">Add Picture</button>
+  <section ng-show="vm.addPicture">
+    <label>New Picture url:<input type="text" ng-model="vm.newURL"/>
+    <label>New Picture Story:<input size = "100" type="text" ng-model="vm.newStory"/>
+    <button ng-click="vm.submitPicture(newURL, newStory)" class="btn btn-warning">Submit Picture</button>
+  </section>
     <section id="displayArea">
       <div ng-repeat="image in vm.imageArray" class="col-sm-2">
         <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="200" height="200"

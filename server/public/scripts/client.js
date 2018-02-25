@@ -1,11 +1,13 @@
-const app = angular.module('myApp',['ui.bootstrap'])
+const app = angular.module('myApp',[])
 
 
 const GalleryController = app.controller('GalleryController', ['$http', function($http){
 let self = this;
 self.imageArray = [];
 self.commentArray = [];
-
+self.newURL = '';
+self.newStory = '';
+self.addPicture = false;
 
 
 self.getImages = function(){
@@ -17,14 +19,12 @@ console.log('inget images');
   .then(function(response){
     console.log('success in getImages', response.data);
     self.imageArray = response.data;
-    console.log(self.imageArray);
   })
   .catch(function(error){
     console.log('error in getImages', error);
   })
 }
 //end getImages
-self.getImages();
 
 
 self.flipImage = function(id, is_clicked){
@@ -83,7 +83,6 @@ self.comments = function(id, view_comments){
 }
 //end comments
 
-self.comments();
 
 
 self.getComments = function(id, view_comments){
@@ -136,7 +135,7 @@ self.addComment = function(id){
     else{
       self.getImages();
     }
-    self.comments();
+    // self.comments();
   })
   .catch(function(error){
     console.log('error in addcomment', error);
@@ -144,7 +143,6 @@ self.addComment = function(id){
 }
 //end add comment
 
-self.addComment();
 
 self.addCommentField = function(id){
   console.log('in add commentfield');
@@ -180,8 +178,46 @@ self.submitComment = function(id, note){
 }
 //end submitComment
 
+self.addPictureField = function(){
+  console.log('in add picture');
+  self.addPicture = true;
+  self.getImages();
+  self.addComment();
+  self.comments();
+}
+//end addPicture
+
+self.submitPicture = function(newURL, newStory){
+  console.log('in submit picture', newURL, newStory);
+  $http({
+    method: 'POST',
+    url: `/gallery/picture`,
+    data: {newURL: newURL,
+           newStory: newStory}
+  })
+  .then(function(response){
+    console.log('success in addcomment post', response);
+    self.addPicture = false;
+    self.newURL = '';
+    self.newStory = '';
+    self.getImages();
+  })
+  .catch(function(error){
+    console.log('error in addcomment post', error);
+  })
+}
+//end submitPicture
 
 
+///these 3 function calls make sure that when the page loads all of the 'view comments'
+///and 'add comments' booleans are re-set in the DB this makes sure that everything starts
+///out in the same state every time the page is loaded
+
+self.getImages();
+self.addComment();
+self.comments();
+
+/////
 
 
 
