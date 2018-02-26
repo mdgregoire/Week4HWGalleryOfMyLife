@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
   </head>
-  <body ng-controller="GalleryController as vm">
+  <body ng-controller="GalleryController as vm" ng-cloak>
     <h1>Michael Douglas Gregoire's Gallery</h1>
     <button ng-hide="vm.addPicture"ng-click="vm.addPictureField()" class="btn btn-warning">Add Picture</button>
     <section ng-show="vm.addPicture">
@@ -21,9 +21,9 @@
       <button ng-click="vm.clearSubmit()" class="btn btn-warning">Cancel Submit Picture</button>
     </section>
     <div class="row">
-      <div style="margin-top: 20px" ng-repeat="image in vm.imageArray" class=" col-sm-2" align="center">
+      <div style="margin-top: 20px" ng-repeat="image in vm.imageArray" class="col-xs-4" align="center">
         <div class="thumbnail">
-          <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="200px"
+          <img ng-hide="image.is_clicked" ng-src="{{image.url}}" style="width: 200px; height: 200px;"
                ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
           <div align= "center" class = "textBox" ng-show="image.is_clicked"
                ng-click="vm.flipImage(image.id, image.is_clicked)">

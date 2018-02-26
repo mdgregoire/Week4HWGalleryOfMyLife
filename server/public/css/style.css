@@ -34,7 +34,10 @@ h1{
 }
 .thumbnail{
   background-color: PowderBlue;
+  width: 300px;
+  /* height: 500px; */
 }
+
 img{
-  padding-top: 5px;
+  padding-top: 30px;
 }
