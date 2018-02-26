@@ -96,7 +96,7 @@ router.put('/vote/:id', (request, response) => {
 })//end put upvote
 
 router.put('/', (request, response) => {
-  console.log('inside comment put');
+
   sqlText = `UPDATE images
              SET view_comments = false;`;
              pool.query(sqlText)
@@ -107,7 +107,7 @@ router.put('/', (request, response) => {
      console.log('error in put', error);
      response.sendStatus(500);
    })
-})//end put upvote
+})//end put resets comment fields
 
 router.put('/add/clear', (request, response) => {
 // this resets all of the 'add_comment' tags in the DB to false, ensuring that

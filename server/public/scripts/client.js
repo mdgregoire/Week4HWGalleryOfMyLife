@@ -45,7 +45,6 @@ self.addCommentField = function(id){
 
 self.addPictureField = function(){
   self.addPicture = true;
-  self.getImages();
   self.addComment();
   self.comments();
 }
@@ -61,15 +60,15 @@ self.clearSubmit = function(){
 //end  clearSubmit
 
 self.comments = function(id, view_comments){
+  //this function resets the view_comment row in the db for every picture
   $http({
     method: 'PUT',
     url: `/gallery`
   })
   .then(function(response){
-    // if this function gets called without an id it will reset all of the 'view_comments'
-    // tags in the db making sure that only 1 viewComment field can be open at a time.
-    // then if it contains an ID it will set the 'view_comments' tag in the db to
-    // true for the picture with that id.
+    // if after reseting the view_comments row this function has had an id passed to
+    // it the function will get the comments for that picture, otherwise the DOM
+    // gets reset with no comments.
     if(id){
     self.getComments(id, view_comments);
       }
@@ -99,6 +98,7 @@ self.flipImage = function(id, is_clicked){
 //end filpimage
 
 self.getComments = function(id, view_comments){
+  // this gets comments from the db and places them in an array
   console.log('in getComments', id);
   $http({
     method: 'GET',
@@ -130,6 +130,8 @@ console.log('getting images');
 //end getImages
 
 self.showComments = function (id, view_comments){
+  // this updats the boolean of 'view_comments in the db and recalls the
+  // display function drawing the comments
   $http({
     method: 'PUT',
     url: `/gallery/comments/${id}`,
