@@ -17,10 +17,10 @@ h1{
   text-align: right;
 }
 .textBox{
-  width: 180px;
-  height: 130px;
+  width: 200px;
+  height: 200px;
   background-color: mintcream;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 .btn{
   margin: 5px;
