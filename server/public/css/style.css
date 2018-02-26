@@ -4,12 +4,10 @@ body{
   font-family: 'Montserrat', sans-serif;
   padding: 20px;
 }
-
 h1{
   font-size: 100px;
   text-align: center;
 }
-
 .note{
   padding: 5px;
   text-align: center;

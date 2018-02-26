@@ -8,30 +8,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>  </head>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+  </head>
   <body ng-controller="GalleryController as vm">
     <h1>Michael Douglas Gregoire's Gallery</h1>
     <button ng-hide="vm.addPicture"ng-click="vm.addPictureField()" class="btn btn-warning">Add Picture</button>
-  <section ng-show="vm.addPicture">
-    <label>New Picture url:<input type="text" ng-model="vm.newURL"/>
-    <label>New Picture Title:<input type="text" ng-model="vm.newTitle"/>
-    <label>New Picture Story:<input size = "50" type="text" ng-model="vm.newStory"/>
-    <button ng-click="vm.submitPicture(vm.newURL, vm.newStory, vm.newTitle)" class="btn btn-warning">Submit Picture</button>
-    <button ng-click="vm.clearSubmit()" class="btn btn-warning">Cancel Submit Picture</button>
-  </section>
-
+    <section ng-show="vm.addPicture">
+      <label>New Picture url:<input type="text" ng-model="vm.newURL"/>
+      <label>New Picture Title:<input type="text" ng-model="vm.newTitle"/>
+      <label>New Picture Story:<input size = "50" type="text" ng-model="vm.newStory"/>
+      <button ng-click="vm.submitPicture(vm.newURL, vm.newStory, vm.newTitle)" class="btn btn-warning">Submit Picture</button>
+      <button ng-click="vm.clearSubmit()" class="btn btn-warning">Cancel Submit Picture</button>
+    </section>
     <div class="row">
       <div style="margin-top: 20px" ng-repeat="image in vm.imageArray" class=" col-sm-2" align="center">
         <div class="thumbnail">
           <img ng-hide="image.is_clicked" ng-src="{{image.url}}" width="200px"
-              ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
-          <div align= "center" class = "textBox" ng-show="image.is_clicked" ng-click="vm.flipImage(image.id, image.is_clicked)">
+               ng-click="vm.flipImage(image.id, image.is_clicked)" alt="">
+          <div align= "center" class = "textBox" ng-show="image.is_clicked"
+               ng-click="vm.flipImage(image.id, image.is_clicked)">
             <p class = "note">
               {{image.note}}
             </p>
           </div>
           <p class = "count">Number of times note has been viewed:{{image.is_clicked_count}}</p>
-
           <div class="caption">
             <h3>{{image.title}}</h3>
             <p>
@@ -50,7 +50,6 @@
            </div>
            <div class= "addComment" ng-show="image.add_comment">
              <input type="text" ng-model="noteInput" placeholder="add comment here">
-
              <button class="btn btn-info btn-sm" ng-click="vm.submitComment(image.id, noteInput)">Submit</button>
              <button class="btn btn-danger btn-sm" ng-click="vm.addComment()">Cancel</button>
            </div>
@@ -58,6 +57,5 @@
         </div>
       </div>
     </div>
-
   </body>
 </html>
